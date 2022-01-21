@@ -37,36 +37,34 @@ public class OlympicMedalistsDatabase
     }
 
     public void generateCountryTotalMedals() {
-        /*int countGold = 0;
-        int countSilver = 0;
-        int countBronze = 0;
-
-        for(OlympicMedalist o : om){
-            if(o.getMedal().equals("Gold")){
-                countGold++;
+        Map<String, int[]> totals = new HashMap<>();
+        for (OlympicMedalist o : om) {
+            if (totals.isEmpty()) {
+                totals.put(o.getCity() + "," + o.getYear() + "," + o.getCountryCode(), new int[3]);
+            } else if (o.getCountryCode().equals(totals.keySet())) {
+                break;
+            } else {
+                totals.put(o.getCity() + "," + o.getYear() + "," + o.getCountryCode(), new int[3]);
             }
-        }*/
 
-        Map<String, ArrayList <Integer>> medalsMap = new HashMap<>();
-        for( OlympicMedalist o : om){
-            String newKey = o.getCity() + "," + o.getYear() + "," + o.getCountryCode();
-            if(medalsMap.isEmpty()){
-                medalsMap.put(o.getCountryCode(), new ArrayList<Integer>(Collections.nCopies(3, 0)));
-            }
-            for(String key : medalsMap.keySet()){
-                if (!key.equals(newKey)) {
-                    medalsMap.put(o.getCountryCode(), new ArrayList<Integer>(Collections.nCopies(3, 0)));
-                }
+        }
+            for (OlympicMedalist o : om) {
                 switch (o.getMedal()) {
-                    case "Gold" -> medalsMap.get(key).set(0, medalsMap.get(key).get(0) + 1);
-                    case "Silver" -> medalsMap.get(key).set(1, medalsMap.get(key).get(1) + 1);
-                    case "Bronze" -> medalsMap.get(key).set(2, medalsMap.get(key).get(2) + 1);
+                    case "Gold" -> totals.entrySet();/*
+                    case "Silver" -> totals.get(o.getCity() + "," + o.getYear() + "," + o.getCountryCode()).set(1, totals.get(o.getCity() + "," + o.getYear() + "," + o.getCountryCode()).get(1) + 1);
+                    case "Bronze" -> totals.get(o.getCity() + "," + o.getYear() + "," + o.getCountryCode()).set(2, totals.get(o.getCity() + "," + o.getYear() + "," + o.getCountryCode()).get(2) + 1);
+                    */
                 }
             }
+        int[] medals;
+        for(Map.Entry<String, int[]> entry: totals.entrySet()){
+            String parts[] = entry.getKey().split(",");
+            String countryCode = parts[2];;
+            String city = parts[0];
+            int year = Integer.parseInt(parts[1]);
+            medals = entry.getValue();
         }
 
-
-        System.out.print(medalsMap);
     }
 
     public int countAllMedalists() {
