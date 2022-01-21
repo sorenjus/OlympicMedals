@@ -47,32 +47,20 @@ public class OlympicMedalistsDatabase
             }
         }*/
 
-        Map<String, ArrayList <Integer>> medalsMap = new HashMap<String, ArrayList <Integer>>();
+        Map<String, ArrayList <Integer>> medalsMap = new HashMap<>();
         for( OlympicMedalist o : om){
-            String key = o.getCity() + "," + o.getYear() + "," + o.getCountryCode();
-            for(Map.Entry<String, ArrayList<Integer>> e : medalsMap.entrySet()){
-                if(e.getKey().equals(key)){
-                    if(o.getMedal().equals("Gold")){
-                        medalsMap.get(key).set(0, medalsMap.get(key).get(0) + 1);
-                    }
-                    else if(o.getMedal().equals("Silver")){
-                        medalsMap.get(key).set(0, medalsMap.get(key).get(1) + 1);
-                    }
-                    else if(o.getMedal().equals("Bronze")){
-                        medalsMap.get(key).set(0, medalsMap.get(key).get(2) + 1);
-                    }
+            String newKey = o.getCity() + "," + o.getYear() + "," + o.getCountryCode();
+            if(medalsMap.isEmpty()){
+                medalsMap.put(o.getCountryCode(), new ArrayList<Integer>(Collections.nCopies(3, 0)));
+            }
+            for(String key : medalsMap.keySet()){
+                if (!key.equals(newKey)) {
+                    medalsMap.put(o.getCountryCode(), new ArrayList<Integer>(Collections.nCopies(3, 0)));
                 }
-                else {
-                    medalsMap.put(key, new ArrayList<>());
-                    if(o.getMedal().equals("Gold")){
-                        medalsMap.get(key).set(0, medalsMap.get(key).get(0) + 1);
-                    }
-                    else if(o.getMedal().equals("Silver")){
-                        medalsMap.get(key).set(0, medalsMap.get(key).get(1) + 1);
-                    }
-                    else if(o.getMedal().equals("Bronze")){
-                        medalsMap.get(key).set(0, medalsMap.get(key).get(2) + 1);
-                    }
+                switch (o.getMedal()) {
+                    case "Gold" -> medalsMap.get(key).set(0, medalsMap.get(key).get(0) + 1);
+                    case "Silver" -> medalsMap.get(key).set(1, medalsMap.get(key).get(1) + 1);
+                    case "Bronze" -> medalsMap.get(key).set(2, medalsMap.get(key).get(2) + 1);
                 }
             }
         }
