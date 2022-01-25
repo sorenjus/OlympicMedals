@@ -28,7 +28,7 @@ public class OlympicMedalistsDatabase
                 OlympicMedalist olympicMedalist = new OlympicMedalist(data);
                 om.add(olympicMedalist);
             }
-            generateCountryTotalMedals(); 
+            generateCountryTotalMedals();
             fileByteStream.close();
         }
         catch(IOException e) {
@@ -42,20 +42,25 @@ public class OlympicMedalistsDatabase
             if (totals.isEmpty()) {
                 totals.put(o.getCity() + "," + o.getYear() + "," + o.getCountryCode(), new int[3]);
             } else if (o.getCountryCode().equals(totals.keySet())) {
-                break;
+                continue;
             } else {
                 totals.put(o.getCity() + "," + o.getYear() + "," + o.getCountryCode(), new int[3]);
             }
-
         }
-            for (OlympicMedalist o : om) {
-                switch (o.getMedal()) {
-                    case "Gold" -> totals.entrySet();/*
-                    case "Silver" -> totals.get(o.getCity() + "," + o.getYear() + "," + o.getCountryCode()).set(1, totals.get(o.getCity() + "," + o.getYear() + "," + o.getCountryCode()).get(1) + 1);
-                    case "Bronze" -> totals.get(o.getCity() + "," + o.getYear() + "," + o.getCountryCode()).set(2, totals.get(o.getCity() + "," + o.getYear() + "," + o.getCountryCode()).get(2) + 1);
-                    */
-                }
+
+        int array[] = {0,0,0};
+        for (OlympicMedalist o : om) {
+            String key = o.getCity() + "," + o.getYear() + "," + o.getCountryCode();
+            array = totals.get(key);
+            switch (o.getMedal()) {
+                case "Gold" -> {array[0] = array[0] + 1;
+                    totals.put(key, array);}
+                case "Silver" -> {array[1] = array[1] + 1;
+                    totals.put(key, array);}
+                case "Bronze" -> {array[2] = array[2] + 1;
+                    totals.put(key, array);}
             }
+        }
         int[] medals;
         for(Map.Entry<String, int[]> entry: totals.entrySet()){
             String parts[] = entry.getKey().split(",");
@@ -63,6 +68,7 @@ public class OlympicMedalistsDatabase
             String city = parts[0];
             int year = Integer.parseInt(parts[1]);
             medals = entry.getValue();
+            ocm.add(new OlympicCountryMedals(year, city, countryCode, medals[0], medals[1], medals[2]));
         }
 
     }
@@ -100,8 +106,8 @@ public class OlympicMedalistsDatabase
     }
 
     public ArrayList < OlympicMedalist > searchMedalistsByYear(int year) {
-        ArrayList < OlympicMedalist > result = 
-            new ArrayList < OlympicMedalist >();
+        ArrayList < OlympicMedalist > result =
+                new ArrayList < OlympicMedalist >();
         for(OlympicMedalist o : om) {
             if (o.getYear() == year) {
                 result.add(o);
@@ -111,9 +117,9 @@ public class OlympicMedalistsDatabase
     }
 
     public ArrayList < OlympicMedalist > searchMedalistsByCountry
-    (String country) {
-        ArrayList < OlympicMedalist > result = 
-            new ArrayList < OlympicMedalist >();
+            (String country) {
+        ArrayList < OlympicMedalist > result =
+                new ArrayList < OlympicMedalist >();
         for(OlympicMedalist o : om) {
             if (o.getCountryCode().equals(country)) {
                 result.add(o);
@@ -133,8 +139,8 @@ public class OlympicMedalistsDatabase
     }
 
     public ArrayList < OlympicCountryMedals > searchCountryMedalsByYear(int year) {
-        ArrayList < OlympicCountryMedals > result = 
-            new ArrayList < OlympicCountryMedals >();
+        ArrayList < OlympicCountryMedals > result =
+                new ArrayList < OlympicCountryMedals >();
         for(OlympicCountryMedals o : ocm) {
             if (o.getYear() == year) {
                 result.add(o);
@@ -144,10 +150,10 @@ public class OlympicMedalistsDatabase
     }
 
     public ArrayList < OlympicCountryMedals > topTenCountriesGoldMedals
-    (int year) {
-       
-        ArrayList < OlympicCountryMedals > result = 
-            new ArrayList < OlympicCountryMedals >();
+            (int year) {
+
+        ArrayList < OlympicCountryMedals > result =
+                new ArrayList < OlympicCountryMedals >();
         // Add your code here
         return result;
     }
@@ -167,9 +173,9 @@ public class OlympicMedalistsDatabase
         // }
         // return result;
         // A second implementation:
-        ArrayList < OlympicCountryMedals > filteredByYear =          
-        ocm.stream().filter(s -> s.getYear() == year).
-        collect(Collectors.toCollection(ArrayList::new));
+        ArrayList < OlympicCountryMedals > filteredByYear =
+                ocm.stream().filter(s -> s.getYear() == year).
+                        collect(Collectors.toCollection(ArrayList::new));
         if (filteredByYear.size() != 0) {
             OlympicCountryMedals r = Collections.max(filteredByYear,
                     Comparator.comparing(o->o.getBronzeMedals()));
