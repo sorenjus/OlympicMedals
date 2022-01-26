@@ -146,6 +146,7 @@ public class OlympicMedalistsDatabase
                 result.add(o);
             }
         }
+        Collections.sort(result);
         return result;
     }
 
