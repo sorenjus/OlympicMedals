@@ -146,7 +146,6 @@ public class OlympicMedalistsDatabase
                 result.add(o);
             }
         }
-        Collections.sort(result);
         return result;
     }
 
@@ -178,6 +177,7 @@ public class OlympicMedalistsDatabase
             ArrayList < OlympicCountryMedals > resultNew = new ArrayList < OlympicCountryMedals >(result.subList(0,10));
             result = resultNew;
         }
+
         return result;
     }
 
