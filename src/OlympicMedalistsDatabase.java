@@ -154,7 +154,29 @@ public class OlympicMedalistsDatabase
 
         ArrayList < OlympicCountryMedals > result =
                 new ArrayList < OlympicCountryMedals >();
-        // Add your code here
+        /*
+
+
+
+
+        Add your code here
+
+
+
+
+
+
+         */
+        for(OlympicCountryMedals o: ocm){
+            if(o.getYear() == year) {
+                result.add(o);
+            }
+        }
+        if(result.size() > 10){
+            Collections.sort(result);
+            ArrayList < OlympicCountryMedals > resultNew = new ArrayList < OlympicCountryMedals >(result.subList(0,10));
+            result = resultNew;
+        }
         return result;
     }
 
