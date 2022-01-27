@@ -152,21 +152,7 @@ public class OlympicMedalistsDatabase
     public ArrayList < OlympicCountryMedals > topTenCountriesGoldMedals
             (int year) {
 
-        ArrayList < OlympicCountryMedals > result =
-                new ArrayList < OlympicCountryMedals >();
-        /*
-
-
-
-
-        Add your code here
-
-
-
-
-
-
-         */
+        ArrayList < OlympicCountryMedals > result = new ArrayList < OlympicCountryMedals >();
         for(OlympicCountryMedals o: ocm){
             if(o.getYear() == year) {
                 result.add(o);
@@ -177,7 +163,6 @@ public class OlympicMedalistsDatabase
             ArrayList < OlympicCountryMedals > resultNew = new ArrayList < OlympicCountryMedals >(result.subList(0,10));
             result = resultNew;
         }
-
         return result;
     }
 
