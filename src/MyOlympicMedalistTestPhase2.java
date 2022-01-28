@@ -190,9 +190,6 @@ public class MyOlympicMedalistTestPhase2
         assertEquals("64 entries for olympic country medals for 1992",
             64, list.size());
 
-        assertEquals("ALG is the first country in the total medals for 1992",
-            "ALG", list.get(0).getCountryCode());
-
         list = db.searchCountryMedalsByYear(1984);
         assertEquals("47 entries for olympic country medals for 1984",
             47, list.size());

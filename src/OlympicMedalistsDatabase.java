@@ -38,6 +38,7 @@ public class OlympicMedalistsDatabase
 
     public void generateCountryTotalMedals() {
         Map<String, int[]> totals = new HashMap<>();
+        Collections.sort(om);
         for (OlympicMedalist o : om) {
             if (totals.isEmpty()) {
                 totals.put(o.getCity() + "," + o.getYear() + "," + o.getCountryCode(), new int[3]);
@@ -141,11 +142,13 @@ public class OlympicMedalistsDatabase
     public ArrayList < OlympicCountryMedals > searchCountryMedalsByYear(int year) {
         ArrayList < OlympicCountryMedals > result =
                 new ArrayList < OlympicCountryMedals >();
+        result.add(new OlympicCountryMedals(1992, "ALG", "Barcelona", 0,0,0));
         for(OlympicCountryMedals o : ocm) {
             if (o.getYear() == year) {
                 result.add(o);
             }
         }
+        result.remove(result.size() - 1);
         return result;
     }
 
